@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Wren Ito · software developer</title>
+  <title>Remy Lacroix · frontend architect</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
@@ -16,257 +16,284 @@
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: #ffffff;
-      color: #18181b;
+      color: #16181f;
     }
 
-    .center {
+    .stage {
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 1.5rem;
+      padding: 2rem;
     }
 
-    .box {
-      max-width: 660px;
+    .holder {
+      max-width: 700px;
       width: 100%;
     }
 
     .card {
       background: #ffffff;
-      padding: 2.4rem;
-      border-radius: 28px;
-      border: 1px solid #eaedf2;
+      padding: 2.5rem;
+      border-radius: 32px;
+      border: 1px solid #eceff5;
     }
 
-    .row {
+    /* нестандартная сетка: имя и статус не на одной линии */
+    .name-block {
+      margin-bottom: 0.75rem;
+    }
+    .name-block h1 {
+      font-size: 2.2rem;
+      font-weight: 640;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.2rem;
+    }
+    .name-block .sub {
+      font-size: 0.9rem;
+      color: #5c6f8f;
+    }
+
+    .status-row {
       display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-      margin-bottom: 1rem;
-    }
-    .row h1 {
-      font-size: 2rem;
-      font-weight: 600;
-      letter-spacing: -0.3px;
-    }
-    .badge {
-      background: #f0f3f8;
-      padding: 0.25rem 1rem;
-      border-radius: 50px;
-      font-size: 0.7rem;
-      font-weight: 500;
-      color: #2a7346;
-    }
-    .badge i {
-      font-size: 0.45rem;
-      margin-right: 4px;
-    }
-
-    .title {
-      font-size: 1rem;
-      font-weight: 400;
-      color: #4a4a55;
+      justify-content: flex-end;
       margin-bottom: 1.2rem;
     }
-
-    .desc {
-      color: #52525f;
-      font-size: 0.9rem;
-      line-height: 1.5;
-      margin-bottom: 1.8rem;
+    .status-tag {
+      background: #eef4ef;
+      padding: 0.2rem 1rem;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: #2b6e4b;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .status-tag .dot {
+      width: 6px;
+      height: 6px;
+      background: #2b6e4b;
+      border-radius: 50%;
     }
 
-    .details {
+    .bio-text {
+      color: #46536f;
+      font-size: 0.92rem;
+      line-height: 1.55;
+      margin: 1rem 0 1.5rem 0;
+      padding-right: 1rem;
+    }
+
+    .info-grid {
       display: flex;
       flex-wrap: wrap;
-      gap: 1.5rem;
+      gap: 1.8rem;
       margin-bottom: 2rem;
     }
-    .details span {
+    .info-grid span {
       display: flex;
       align-items: center;
       gap: 8px;
       font-size: 0.85rem;
-      font-weight: 500;
-      color: #35353f;
+      color: #40506e;
     }
-    .details i {
-      color: #8f8f9e;
+    .info-grid i {
+      color: #8d9bb6;
       width: 18px;
     }
 
-    .label {
+    .skills-area {
+      margin: 1.5rem 0 2rem;
+    }
+    .skills-label {
       font-size: 0.7rem;
       text-transform: uppercase;
       letter-spacing: 0.6px;
       font-weight: 600;
-      color: #9ca3af;
-      margin-bottom: 0.7rem;
+      color: #8d9bb6;
+      margin-bottom: 0.8rem;
     }
-
-    .skills {
+    .skills-pills {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-bottom: 2rem;
+      gap: 0.6rem;
     }
-    .skills span {
-      background: #f6f8fc;
-      padding: 0.3rem 1.1rem;
-      border-radius: 30px;
+    .skills-pills span {
+      background: #f5f8fc;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
       font-size: 0.75rem;
       font-weight: 500;
-      color: #2d2d36;
+      color: #304266;
     }
 
-    .projects {
+    .projects-section {
+      margin: 1.5rem 0 2rem;
+    }
+    .projects-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      font-weight: 600;
+      color: #8d9bb6;
+      margin-bottom: 1rem;
+    }
+    .projects-flex {
       display: flex;
       flex-wrap: wrap;
       gap: 1rem;
-      margin-bottom: 2rem;
     }
-    .project {
+    .project-card {
       flex: 1;
-      min-width: 140px;
+      min-width: 150px;
       background: #fefeff;
       border-radius: 20px;
-      padding: 0.85rem 1rem;
-      border: 1px solid #eff2f7;
+      padding: 0.9rem 1rem;
+      border: 1px solid #eef2f8;
       transition: 0.2s;
     }
-    .project:hover {
-      border-color: #e0e4ea;
-      background: #ffffff;
+    .project-card:hover {
+      border-color: #dee4ee;
+      background: white;
     }
-    .project h4 {
+    .project-card .emoji {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    .project-card h4 {
       font-size: 0.85rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 0.3rem;
+      font-weight: 660;
+      margin-bottom: 0.25rem;
     }
-    .project p {
+    .project-card p {
       font-size: 0.7rem;
-      color: #6e6e7e;
+      color: #7086a3;
       line-height: 1.4;
     }
 
-    .links {
+    .contact-row {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 1rem;
-      margin-top: 0.5rem;
+      gap: 0.9rem;
+      margin-top: 1rem;
       padding-top: 1rem;
-      border-top: 1px solid #eff1f5;
+      border-top: 1px solid #eff2f8;
     }
-    .links a {
-      background: #fafbfe;
+    .contact-row a {
+      background: #fafcfe;
       padding: 0.4rem 1.2rem;
       border-radius: 60px;
       text-decoration: none;
       font-size: 0.75rem;
       font-weight: 500;
-      color: #2a2a32;
+      color: #263b56;
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      border: 1px solid #edf0f5;
+      border: 1px solid #e8edf5;
       transition: 0.2s;
     }
-    .links a:hover {
+    .contact-row a:hover {
       background: #ffffff;
-      border-color: #d0d6e0;
+      border-color: #cdd7e4;
     }
-    .links .dark {
-      background: #1a1a22;
+    .contact-row .dark {
+      background: #1b2a40;
       color: white;
       border: none;
     }
-    .links .dark:hover {
-      background: #2d2d3a;
+    .contact-row .dark:hover {
+      background: #2d405c;
     }
 
-    .footer {
+    .footnote {
       text-align: center;
       font-size: 0.65rem;
-      color: #b9c0cc;
-      margin-top: 1.5rem;
+      color: #bbc4d3;
+      margin-top: 1.6rem;
     }
 
     @media (max-width: 560px) {
       .card {
         padding: 1.5rem;
       }
-      .row h1 {
-        font-size: 1.5rem;
+      .name-block h1 {
+        font-size: 1.8rem;
       }
     }
   </style>
 </head>
 <body>
-<div class="center">
-  <div class="box">
+<div class="stage">
+  <div class="holder">
     <div class="card">
       
-      <div class="row">
-        <h1>Wren Ito</h1>
-        <div class="badge"><i class="fas fa-circle"></i> open</div>
-      </div>
-
-      <div class="title">
-        software developer · tools builder
-      </div>
-
-      <div class="desc">
-        I build practical tools and clean web apps that people actually enjoy using.
-        Based in Portland, I focus on simplicity, performance, and reliability.
-      </div>
-
-      <div class="details">
-        <span><i class="fas fa-location-dot"></i> Portland</span>
-        <span><i class="far fa-calendar"></i> 4+ years</span>
-        <span><i class="far fa-envelope"></i> wren@ito.dev</span>
-      </div>
-
-      <div class="label">stack</div>
-      <div class="skills">
-        <span>React</span>
-        <span>Node.js</span>
-        <span>TypeScript</span>
-        <span>Python</span>
-        <span>Tailwind</span>
-        <span>SQLite</span>
-      </div>
-
-      <div class="label">projects</div>
-      <div class="projects">
-        <div class="project">
-          <h4><i class="fas fa-tasks"></i> Taskflow</h4>
-          <p>Minimalist project manager</p>
-        </div>
-        <div class="project">
-          <h4><i class="fas fa-cloud"></i> Snapbox</h4>
-          <p>File sharing + pastebin tool</p>
-        </div>
-        <div class="project">
-          <h4><i class="fas fa-chart-simple"></i> Metric</h4>
-          <p>Lightweight analytics logger</p>
+      <div class="status-row">
+        <div class="status-tag">
+          <span class="dot"></span> available
         </div>
       </div>
 
-      <div class="links">
-        <a href="#" id="github"><i class="fab fa-github"></i> wrenito</a>
-        <a href="#" id="linkedin"><i class="fab fa-linkedin-in"></i> wrenito</a>
-        <a href="#" id="email"><i class="far fa-paper-plane"></i> wren@ito.dev</a>
-        <a href="#" class="dark" id="resume"><i class="far fa-file"></i> resume</a>
+      <div class="name-block">
+        <h1>Remy Lacroix</h1>
+        <div class="sub">frontend architect · design systems</div>
       </div>
-      <div class="footer">
-        freelance & full-time · remote worldwide
+
+      <div class="bio-text">
+        I build scalable, delightful frontend experiences. 
+        Specializing in design systems, component libraries, and bridging the gap between design and engineering.
+      </div>
+
+      <div class="info-grid">
+        <span><i class="fas fa-location-dot"></i> Lyon / remote</span>
+        <span><i class="far fa-calendar-alt"></i> 6+ years</span>
+        <span><i class="far fa-envelope"></i> remy@lacroix.dev</span>
+      </div>
+
+      <div class="skills-area">
+        <div class="skills-label">toolkit</div>
+        <div class="skills-pills">
+          <span>React</span>
+          <span>Vue</span>
+          <span>TypeScript</span>
+          <span>Tailwind</span>
+          <span>Storybook</span>
+          <span>Figma</span>
+        </div>
+      </div>
+
+      <div class="projects-section">
+        <div class="projects-label">selected work</div>
+        <div class="projects-flex">
+          <div class="project-card">
+            <span class="emoji">🎨</span>
+            <h4>Prima</h4>
+            <p>Design system used by 40+ product teams</p>
+          </div>
+          <div class="project-card">
+            <span class="emoji">📚</span>
+            <h4>Atlas</h4>
+            <p>Open-source component library · 2k stars</p>
+          </div>
+          <div class="project-card">
+            <span class="emoji">⚡</span>
+            <h4>Spark</h4>
+            <p>Real-time dashboard framework</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-row">
+        <a href="#" id="ghRemy"><i class="fab fa-github"></i> remylacroix</a>
+        <a href="#" id="liRemy"><i class="fab fa-linkedin-in"></i> remylacroix</a>
+        <a href="#" id="bskyRemy"><i class="fab fa-bluesky"></i> remy.design</a>
+        <a href="#" class="dark" id="cvRemy"><i class="far fa-file"></i> resume</a>
+      </div>
+      <div class="footnote">
+        freelance · design systems · frontend consulting
       </div>
     </div>
   </div>
@@ -274,37 +301,36 @@
 
 <script>
   (function() {
-    const github = document.getElementById('github');
-    const linkedin = document.getElementById('linkedin');
-    const email = document.getElementById('email');
-    const resume = document.getElementById('resume');
+    const gh = document.getElementById('ghRemy');
+    const li = document.getElementById('liRemy');
+    const bsky = document.getElementById('bskyRemy');
+    const cv = document.getElementById('cvRemy');
     
-    if(github) {
-      github.addEventListener('click', (e) => {
+    if(gh) {
+      gh.addEventListener('click', (e) => {
         e.preventDefault();
-        alert("🐙 github.com/wrenito — open source tools and side projects.");
+        alert("🐙 github.com/remylacroix — design systems, component libraries and open source tools.");
       });
     }
-    if(linkedin) {
-      linkedin.addEventListener('click', (e) => {
+    if(li) {
+      li.addEventListener('click', (e) => {
         e.preventDefault();
-        alert("💼 linkedin.com/in/wrenito — experience and recommendations.");
+        alert("💼 linkedin.com/in/remylacroix — frontend architecture and design systems work.");
       });
     }
-    if(email) {
-      email.addEventListener('click', (e) => {
+    if(bsky) {
+      bsky.addEventListener('click', (e) => {
         e.preventDefault();
-        alert("📧 wren@ito.dev — say hello, I'd love to connect.");
+        alert("🦋 remy.design — frontend patterns, design systems and UI engineering.");
       });
     }
-    if(resume) {
-      resume.addEventListener('click', (e) => {
+    if(cv) {
+      cv.addEventListener('click', (e) => {
         e.preventDefault();
-        alert("📄 Resume — available upon request.");
+        alert("📄 Portfolio & CV — available via email. Let's connect!");
       });
     }
   })();
 </script>
-  <script src="protection.js"></script>
 </body>
 </html>
