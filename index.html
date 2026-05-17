@@ -1,410 +1,627 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Remy Lacroix · frontend architect</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Glimmer AI | Soft Intelligence That Shines</title>
+    <meta name="description" content="Glimmer AI brings soft, radiant intelligence to your world. Gentle, intuitive, and beautifully human — like morning light on your face.">
+    <meta name="keywords" content="glimmer AI, soft shine, gentle intelligence, peach glow">
+    <meta name="author" content="Glimmer Labs">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #ffffff;
-      color: #16181f;
-    }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #fefaf7;
+            color: #3d2b1d;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
 
-    .stage {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-    }
+        :root {
+            --glimmer-light: #ffefe2;
+            --glimmer-soft: #ffe0cc;
+            --glimmer-glow: #ffccb0;
+            --glimmer-bright: #f5a06b;
+            --glimmer-deep: #c45a2e;
+            --shadow-soft: 0 12px 28px rgba(196, 90, 46, 0.05);
+            --glow-soft: 0 0 28px rgba(245, 160, 107, 0.28);
+            --curve-card: 32px;
+        }
 
-    .holder {
-      max-width: 700px;
-      width: 100%;
-    }
+        /* Sparkle pattern */
+        .sparkle-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background-image: radial-gradient(circle at 15px 25px, rgba(255, 204, 176, 0.1) 1px, transparent 1px);
+            background-size: 35px 35px;
+            z-index: 0;
+        }
 
-    .card {
-      background: #ffffff;
-      padding: 2.5rem;
-      border-radius: 32px;
-      border: 1px solid #eceff5;
-    }
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 32px;
+            position: relative;
+            z-index: 1;
+        }
 
-    /* нестандартная сетка: имя и статус не на одной линии */
-    .name-block {
-      margin-bottom: 0.75rem;
-    }
-    .name-block h1 {
-      font-size: 2.2rem;
-      font-weight: 640;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.2rem;
-    }
-    .name-block .sub {
-      font-size: 0.9rem;
-      color: #5c6f8f;
-    }
+        /* Navigation */
+        .navbar {
+            background: rgba(254, 250, 247, 0.94);
+            backdrop-filter: blur(14px);
+            position: sticky;
+            top: 0;
+            z-index: 101;
+            border-bottom: 1px solid var(--glimmer-soft);
+        }
 
-    .status-row {
-      display: flex;
-      justify-content: flex-end;
-      margin-bottom: 1.2rem;
-    }
-    .status-tag {
-      background: #eef4ef;
-      padding: 0.2rem 1rem;
-      border-radius: 40px;
-      font-size: 0.7rem;
-      font-weight: 500;
-      color: #2b6e4b;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .status-tag .dot {
-      width: 6px;
-      height: 6px;
-      background: #2b6e4b;
-      border-radius: 50%;
-    }
+        .nav-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.9rem 0;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
 
-    .bio-text {
-      color: #46536f;
-      font-size: 0.92rem;
-      line-height: 1.55;
-      margin: 1rem 0 1.5rem 0;
-      padding-right: 1rem;
-    }
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(125deg, #c45a2e, #f5a06b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.01em;
+        }
 
-    .info-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.8rem;
-      margin-bottom: 2rem;
-    }
-    .info-grid span {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.85rem;
-      color: #40506e;
-    }
-    .info-grid i {
-      color: #8d9bb6;
-      width: 18px;
-    }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
 
-    .skills-area {
-      margin: 1.5rem 0 2rem;
-    }
-    .skills-label {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      font-weight: 600;
-      color: #8d9bb6;
-      margin-bottom: 0.8rem;
-    }
-    .skills-pills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-    }
-    .skills-pills span {
-      background: #f5f8fc;
-      padding: 0.3rem 1rem;
-      border-radius: 40px;
-      font-size: 0.75rem;
-      font-weight: 500;
-      color: #304266;
-    }
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 500;
+            color: #8a644c;
+            transition: 0.2s;
+        }
 
-    .projects-section {
-      margin: 1.5rem 0 2rem;
-    }
-    .projects-label {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      font-weight: 600;
-      color: #8d9bb6;
-      margin-bottom: 1rem;
-    }
-    .projects-flex {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-    .project-card {
-      flex: 1;
-      min-width: 150px;
-      background: #fefeff;
-      border-radius: 20px;
-      padding: 0.9rem 1rem;
-      border: 1px solid #eef2f8;
-      transition: 0.2s;
-    }
-    .project-card:hover {
-      border-color: #dee4ee;
-      background: white;
-    }
-    .project-card .emoji {
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-      display: block;
-    }
-    .project-card h4 {
-      font-size: 0.85rem;
-      font-weight: 660;
-      margin-bottom: 0.25rem;
-    }
-    .project-card p {
-      font-size: 0.7rem;
-      color: #7086a3;
-      line-height: 1.4;
-    }
+        .nav-links a:hover {
+            color: var(--glimmer-deep);
+        }
 
-    .contact-row {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.9rem;
-      margin-top: 1rem;
-      padding-top: 1rem;
-      border-top: 1px solid #eff2f8;
-    }
-    .contact-row a {
-      background: #fafcfe;
-      padding: 0.4rem 1.2rem;
-      border-radius: 60px;
-      text-decoration: none;
-      font-size: 0.75rem;
-      font-weight: 500;
-      color: #263b56;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      border: 1px solid #e8edf5;
-      transition: 0.2s;
-    }
-    .contact-row a:hover {
-      background: #ffffff;
-      border-color: #cdd7e4;
-    }
-    .contact-row .dark {
-      background: #1b2a40;
-      color: white;
-      border: none;
-    }
-    .contact-row .dark:hover {
-      background: #2d405c;
-    }
+        .btn-glimmer {
+            background: linear-gradient(115deg, var(--glimmer-deep), var(--glimmer-bright));
+            padding: 0.5rem 1.6rem;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.2s;
+            box-shadow: 0 2px 8px rgba(196, 90, 46, 0.12);
+            display: inline-block;
+        }
 
-    .footnote {
-      text-align: center;
-      font-size: 0.65rem;
-      color: #bbc4d3;
-      margin-top: 1.6rem;
-    }
+        .btn-glimmer:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(196, 90, 46, 0.2);
+        }
 
-    @media (max-width: 560px) {
-      .card {
-        padding: 1.5rem;
-      }
-      .name-block h1 {
-        font-size: 1.8rem;
-      }
-    }
-  </style>
+        /* Hero */
+        .hero {
+            padding: 5rem 0 6rem;
+            background: radial-gradient(ellipse at 40% 30%, var(--glimmer-glow) 0%, var(--glimmer-light) 45%, #fefaf7 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -15%;
+            right: -10%;
+            width: 65%;
+            height: 65%;
+            background: radial-gradient(circle, rgba(245, 160, 107, 0.12), transparent 70%);
+            filter: blur(35px);
+            pointer-events: none;
+        }
+
+        .hero-grid {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 3rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-text {
+            flex: 1;
+        }
+
+        .hero-tag {
+            background: rgba(196, 90, 46, 0.1);
+            border: 1px solid var(--glimmer-soft);
+            border-radius: 50px;
+            padding: 0.3rem 1rem;
+            display: inline-block;
+            font-weight: 500;
+            font-size: 0.75rem;
+            color: var(--glimmer-deep);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text h1 {
+            font-size: 3.6rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.2rem;
+            color: #3d2b1d;
+        }
+
+        .glimmer-word {
+            background: linear-gradient(135deg, var(--glimmer-deep), var(--glimmer-bright));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            color: #9a735b;
+            max-width: 90%;
+            margin-bottom: 2rem;
+        }
+
+        .hero-numbers {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .num-item h3 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--glimmer-deep);
+        }
+
+        .hero-visual {
+            flex: 1;
+            text-align: center;
+            background: rgba(255, 242, 234, 0.55);
+            backdrop-filter: blur(8px);
+            border-radius: 56px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid var(--glimmer-soft);
+        }
+
+        .btn-primary-glimmer {
+            background: linear-gradient(115deg, var(--glimmer-deep), var(--glimmer-bright));
+            padding: 0.9rem 2.2rem;
+            border-radius: 50px;
+            color: white;
+            font-weight: 700;
+            display: inline-block;
+            text-decoration: none;
+            transition: 0.2s;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .btn-primary-glimmer:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 22px rgba(196, 90, 46, 0.2);
+        }
+
+        section {
+            padding: 5rem 0;
+        }
+
+        .section-head {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-head h2 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: #3d2b1d;
+            margin-bottom: 0.6rem;
+        }
+
+        .section-head p {
+            color: #9a735b;
+            max-width: 580px;
+            margin: 0 auto;
+        }
+
+        /* Cards */
+        .glimmer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .glimmer-card {
+            background: rgba(255, 242, 234, 0.7);
+            backdrop-filter: blur(4px);
+            border-radius: var(--curve-card);
+            padding: 2rem 1.8rem;
+            border: 1px solid var(--glimmer-soft);
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .glimmer-card:hover {
+            transform: translateY(-7px);
+            border-color: var(--glimmer-glow);
+            box-shadow: var(--glow-soft);
+        }
+
+        .card-icon {
+            font-size: 2.4rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Shine row */
+        .shine-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            background: var(--glimmer-light);
+            border-radius: 52px;
+            padding: 2.5rem;
+            border: 1px solid var(--glimmer-soft);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .shine-cell {
+            flex: 1;
+            text-align: center;
+            padding: 0.6rem;
+        }
+
+        /* Pricing */
+        .glimmer-pricing {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        .price-glimmer {
+            background: rgba(255, 242, 234, 0.9);
+            border-radius: 32px;
+            flex: 1;
+            min-width: 270px;
+            padding: 2rem;
+            border: 1px solid var(--glimmer-soft);
+            transition: 0.25s;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .price-glimmer.glimmer-feature {
+            border-top: 5px solid var(--glimmer-deep);
+            transform: scale(1.02);
+            background: #fffbf7;
+            box-shadow: var(--glow-soft);
+        }
+
+        .price-number {
+            font-size: 2.9rem;
+            font-weight: 800;
+            color: var(--glimmer-deep);
+            margin: 1rem 0;
+        }
+
+        .btn-outline-glimmer {
+            border: 1.5px solid var(--glimmer-deep);
+            padding: 0.7rem 1.8rem;
+            border-radius: 50px;
+            background: transparent;
+            color: var(--glimmer-deep);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.2s;
+        }
+
+        .btn-outline-glimmer:hover {
+            background: var(--glimmer-deep);
+            color: white;
+        }
+
+        .cta-glimmer {
+            background: linear-gradient(125deg, var(--glimmer-light), #fff0e6);
+            border-radius: 52px;
+            text-align: center;
+            padding: 3rem;
+            border: 1px solid var(--glimmer-soft);
+            box-shadow: var(--shadow-soft);
+        }
+
+        /* Privacy */
+        .privacy-glimmer {
+            background: #fff5ef;
+            border-radius: 38px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            border: 1px solid var(--glimmer-soft);
+            scroll-margin-top: 90px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .privacy-glimmer h2, .privacy-glimmer h3 {
+            color: #3d2b1d;
+            margin-top: 1.8rem;
+            font-weight: 700;
+        }
+
+        .privacy-glimmer p, .privacy-glimmer li {
+            color: #9a735b;
+        }
+
+        footer {
+            background: linear-gradient(115deg, #f0e0d4, #fae8dd);
+            color: #b08066;
+            padding: 3rem 0 2rem;
+            border-top: 1px solid var(--glimmer-soft);
+        }
+
+        .scroll-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: linear-gradient(115deg, var(--glimmer-deep), var(--glimmer-bright));
+            color: white;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: 0.2s;
+            z-index: 99;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .scroll-top:hover {
+            opacity: 1;
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 800px) {
+            .hero-text h1 { font-size: 2.2rem; }
+            .nav-wrapper { flex-direction: column; }
+            .section-head h2 { font-size: 1.9rem; }
+        }
+    </style>
 </head>
 <body>
-<div class="stage">
-  <div class="holder">
-    <div class="card">
-      
-      <div class="status-row">
-        <div class="status-tag">
-          <span class="dot"></span> available
+
+<div class="sparkle-pattern"></div>
+
+<nav class="navbar">
+    <div class="container nav-wrapper">
+        <div class="logo">Glimmer<span style="color:#f5a06b;">✦</span></div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#shine">Shine</a>
+            <a href="#radiance">Radiance</a>
+            <a href="#pricing">Plans</a>
+            <a href="#privacy">Trust</a>
+            <!-- Ссылка на Google Sites homepage (замените на ваш реальный URL) -->
+            <a href="https://sites.google.com/view/glimmer-ai/home" class="btn-glimmer" target="_blank">✨ Glimmer Hub</a>
         </div>
-      </div>
-
-      <div class="name-block">
-        <h1>Remy Lacroix</h1>
-        <div class="sub">frontend architect · design systems</div>
-      </div>
-
-      <div class="bio-text">
-        I build scalable, delightful frontend experiences. 
-        Specializing in design systems, component libraries, and bridging the gap between design and engineering.
-      </div>
-
-      <div class="info-grid">
-        <span><i class="fas fa-location-dot"></i> Lyon / remote</span>
-        <span><i class="far fa-calendar-alt"></i> 6+ years</span>
-        <span><i class="far fa-envelope"></i> remy@lacroix.dev</span>
-      </div>
-
-      <div class="skills-area">
-        <div class="skills-label">toolkit</div>
-        <div class="skills-pills">
-          <span>React</span>
-          <span>Vue</span>
-          <span>TypeScript</span>
-          <span>Tailwind</span>
-          <span>Storybook</span>
-          <span>Figma</span>
-        </div>
-      </div>
-
-      <div class="projects-section">
-        <div class="projects-label">selected work</div>
-        <div class="projects-flex">
-          <div class="project-card">
-            <span class="emoji">🎨</span>
-            <h4>Prima</h4>
-            <p>Design system used by 40+ product teams</p>
-          </div>
-          <div class="project-card">
-            <span class="emoji">📚</span>
-            <h4>Atlas</h4>
-            <p>Open-source component library · 2k stars</p>
-          </div>
-          <div class="project-card">
-            <span class="emoji">⚡</span>
-            <h4>Spark</h4>
-            <p>Real-time dashboard framework</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="contact-row">
-        <a href="#" id="ghRemy"><i class="fab fa-github"></i> remylacroix</a>
-        <a href="#" id="liRemy"><i class="fab fa-linkedin-in"></i> remylacroix</a>
-        <a href="#" id="bskyRemy"><i class="fab fa-bluesky"></i> remy.design</a>
-        <a href="#" class="dark" id="cvRemy"><i class="far fa-file"></i> resume</a>
-      </div>
-      <div class="footnote">
-        freelance · design systems · frontend consulting
-      </div>
     </div>
-  </div>
-</div>
+</nav>
+
+<main>
+    <!-- Hero -->
+    <section id="home" class="hero">
+        <div class="container hero-grid">
+            <div class="hero-text">
+                <div class="hero-tag"><i class="fas fa-star"></i> Soft radiance</div>
+                <h1>Intelligence that <span class="glimmer-word">glimmers</span> within you</h1>
+                <p>Glimmer AI brings soft, radiant intelligence to your world. Like morning light — ethical, intuitive, and beautifully human.</p>
+                <!-- Кнопка ведёт на Google Sites -->
+                <a href="https://sites.google.com/view/glimmer-ai/start" target="_blank" class="btn-primary-glimmer"><i class="fas fa-sun"></i> Begin your glimmer</a>
+                <div class="hero-numbers">
+                    <div class="num-item"><h3>22k+</h3><span>radiant souls</span></div>
+                    <div class="num-item"><h3>4.99★</h3><span>glimmer rating</span></div>
+                    <div class="num-item"><h3>∞</h3><span>gentle glow</span></div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <svg width="100%" height="250" viewBox="0 0 500 270" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="500" height="270" rx="36" fill="#FFF5EE" stroke="#FFE0CC" stroke-width="1"/>
+                    <circle cx="170" cy="125" r="48" fill="#FFEFE2" stroke="#F5A06B" stroke-width="1.5"/>
+                    <circle cx="170" cy="125" r="28" fill="#FFCCB0" fill-opacity="0.5"/>
+                    <circle cx="170" cy="125" r="11" fill="#C45A2E"/>
+                    <path d="M280 105 L340 135 L280 165 L220 135 Z" fill="#FFE0CC" stroke="#F5A06B" stroke-width="1.5"/>
+                    <circle cx="280" cy="135" r="8" fill="#C45A2E" fill-opacity="0.6"/>
+                    <path d="M390 115 L410 140 L390 165 L370 140 Z" fill="#FFCCB0" stroke="#F5A06B" stroke-width="1"/>
+                    <path d="M120 210 L180 210 L150 245 Z" fill="#FFEFE2" stroke="#F5A06B" stroke-width="1"/>
+                    <path d="M320 210 L380 210 L350 245 Z" fill="#FFEFE2" stroke="#F5A06B" stroke-width="1"/>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shine features -->
+    <section id="shine">
+        <div class="container">
+            <div class="section-head">
+                <h2>Ways glimmer shines on you</h2>
+                <p>Gentle radiance for your daily rhythm</p>
+            </div>
+            <div class="glimmer-grid">
+                <div class="glimmer-card"><div class="card-icon">✨</div><h3>Radiant Chat</h3><p>Conversations that feel like warm sunlight — never cold, always gentle.</p></div>
+                <div class="glimmer-card"><div class="card-icon">💫</div><h3>Sparkling Insights</h3><p>Beautiful, soft analytics that illuminate without overwhelming.</p></div>
+                <div class="glimmer-card"><div class="card-icon">🌸</div><h3>Gentle Flow</h3><p>Automation that moves like morning dew — quiet, soft, refreshing.</p></div>
+                <div class="glimmer-card"><div class="card-icon">🕯️</div><h3>Sacred Trust</h3><p>Privacy-first, bias-aware, and transparent as pure light.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Radiance row -->
+    <section id="radiance">
+        <div class="container">
+            <div class="shine-row">
+                <div class="shine-cell"><i class="fas fa-feather" style="font-size: 2rem; color:#c45a2e;"></i><h3 style="margin: 1rem 0 0.5rem;">Feather-glimmer</h3><p>Blazing fast, warm touch</p></div>
+                <div class="shine-cell"><i class="fas fa-globe" style="font-size: 2rem; color:#c45a2e;"></i><h3 style="margin: 1rem 0 0.5rem;">40+ languages</h3><p>Global radiant glow</p></div>
+                <div class="shine-cell"><i class="fas fa-shield-heart" style="font-size: 2rem; color:#c45a2e;"></i><h3 style="margin: 1rem 0 0.5rem;">Yours always</h3><p>Never trained on</p></div>
+                <div class="shine-cell"><i class="fas fa-sun" style="font-size: 2rem; color:#c45a2e;"></i><h3 style="margin: 1rem 0 0.5rem;">Warm by soul</h3><p>Built with empathy</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing plans -->
+    <section id="pricing">
+        <div class="container">
+            <div class="section-head">
+                <h2>Radiant plans for every soul</h2>
+                <p>Pricing as soft as morning light</p>
+            </div>
+            <div class="glimmer-pricing">
+                <div class="price-glimmer"><h3>Spark</h3><div class="price-number">$0</div><p>180 messages/month, basic glow, community radiance.</p>
+                    <a href="https://sites.google.com/view/glimmer-ai/signup?plan=free" target="_blank" class="btn-outline-glimmer" style="margin-top:1.5rem; display:inline-block;">Spark free</a>
+                </div>
+                <div class="price-glimmer glimmer-feature"><h3>Glimmer <span style="background:#ffe0cc; font-size:0.7rem; padding:0.2rem 0.6rem; border-radius:40px;">✨ Most radiant</span></h3><div class="price-number">$16<span style="font-size:1rem;">/mo</span></div><p>Unlimited messages, priority glimmer, full API.</p>
+                    <a href="https://sites.google.com/view/glimmer-ai/signup?plan=pro" target="_blank" class="btn-primary-glimmer">Shine brighter</a>
+                </div>
+                <div class="price-glimmer"><h3>Radiance</h3><div class="price-number">$39<span style="font-size:1rem;">/mo</span></div><p>Team features, analytics, custom warmth.</p>
+                    <a href="https://sites.google.com/view/glimmer-ai/contact" target="_blank" class="btn-outline-glimmer">Reach radiance</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA glimmer -->
+    <div class="container">
+        <div class="cta-glimmer">
+            <h2 style="font-size: 2rem;">Let gentle glimmer light your path</h2>
+            <p style="margin: 1rem 0 2rem; opacity: 0.85;">Join thousands who've found warm, radiant intelligence with Glimmer.</p>
+            <a href="https://sites.google.com/view/glimmer-ai/trial" target="_blank" class="btn-primary-glimmer"><i class="fas fa-star"></i> Start your glimmer trial</a>
+        </div>
+    </div>
+
+    <!-- Privacy Policy -->
+    <div class="container" id="privacy">
+        <div class="privacy-glimmer">
+            <h2><i class="fas fa-leaf" style="color:#f5a06b;"></i> Sacred Glimmer — Our Radiant Promise</h2>
+            <p><strong>Last glimmer:</strong> May 2025 | Glimmer Labs holds your trust as precious as morning light.</p>
+            
+            <h3>1. What we gather</h3>
+            <p>Account essence (name, email), conversation glimmer (encrypted at rest), and gentle usage echoes. You remain the sole owner of your radiant light.</p>
+            
+            <h3>2. How your light is honoured</h3>
+            <p>To nurture our AI, personalise your journey, handle billing, and support you. Zero selling. Zero advertising training. Zero dark patterns.</p>
+            
+            <h3>3. Keeping your glimmer safe</h3>
+            <p>You may delete any conversation instantly. Account data vanishes when you wish. Full radiant export available anytime.</p>
+            
+            <h3>4. Trusted guardians</h3>
+            <p>We partner with AWS and Cloudflare under strict data pledges. All data travels encrypted (TLS 1.3) and rests encrypted (AES-256).</p>
+            
+            <h3>5. Your radiant rights (GDPR / CCPA)</h3>
+            <p>Access, correct, delete, restrict, or take your data elsewhere. Email <strong><a href="mailto:privacy@glimmer.ai" style="color:#c45a2e;">privacy@glimmer.ai</a></strong>. Marketing? Simply say the word to opt out.</p>
+            
+            <h3>6. Young souls</h3>
+            <p>Glimmer is crafted for humans 16 and over. We do not knowingly collect from younger hearts.</p>
+            
+            <h3>7. Across borders</h3>
+            <p>Data may travel the globe under Standard Contractual Clauses — always protected, always respected.</p>
+            
+            <h3>8. When glimmer evolves</h3>
+            <p>Material changes will reach your inbox. Our Data Protection Officer: <strong><a href="mailto:dpo@glimmer.ai" style="color:#c45a2e;">dpo@glimmer.ai</a></strong>. Or write: 101 Radiant Lane, Santa Fe, NM 87501.</p>
+            <p style="margin-top:1.5rem;"><i class="fas fa-sun" style="color:#f5a06b;"></i> Glimmer — Intelligence that shines warmly within you.</p>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2rem;">
+            <div>
+                <h3 style="color:#3d2b1d;">Glimmer<span style="color:#f5a06b;">✦</span></h3>
+                <p style="max-width: 210px; margin-top: 0.5rem;">Radiant intelligence for all souls.</p>
+                <div style="margin-top: 1rem;">
+                    <!-- Социальные ссылки ведут на Google Sites страницы -->
+                    <a href="https://sites.google.com/view/glimmer-ai/twitter" target="_blank" style="color:#b08066; margin-right: 1rem;"><i class="fab fa-twitter"></i></a>
+                    <a href="https://sites.google.com/view/glimmer-ai/instagram" target="_blank" style="color:#b08066; margin-right: 1rem;"><i class="fab fa-instagram"></i></a>
+                    <a href="https://sites.google.com/view/glimmer-ai/linkedin" target="_blank" style="color:#b08066;"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4>Radiance</h4>
+                <p><a href="#shine" style="color:#b08066; text-decoration:none;">Features</a><br>
+                   <a href="#pricing" style="color:#b08066; text-decoration:none;">Pricing</a><br>
+                   <a href="https://sites.google.com/view/glimmer-ai/api" target="_blank" style="color:#b08066;">API</a><br>
+                   <a href="https://sites.google.com/view/glimmer-ai/status" target="_blank" style="color:#b08066;">Status</a></p>
+            </div>
+            <div>
+                <h4>Resources</h4>
+                <p><a href="https://sites.google.com/view/glimmer-ai/blog" target="_blank" style="color:#b08066;">Journal</a><br>
+                   <a href="https://sites.google.com/view/glimmer-ai/guide" target="_blank" style="color:#b08066;">Guide</a><br>
+                   <a href="https://sites.google.com/view/glimmer-ai/community" target="_blank" style="color:#b08066;">Community</a><br>
+                   <a href="https://sites.google.com/view/glimmer-ai/support" target="_blank" style="color:#b08066;">Support</a></p>
+            </div>
+            <div>
+                <h4>Sanctuary</h4>
+                <p><a href="#privacy" style="color:#b08066; text-decoration:none;">Privacy Vow</a><br>
+                   <a href="https://sites.google.com/view/glimmer-ai/terms" target="_blank" style="color:#b08066;">Terms of Radiance</a><br>
+                   <a href="https://sites.google.com/view/glimmer-ai/ethics" target="_blank" style="color:#b08066;">Ethics Charter</a><br>
+                   <a href="https://sites.google.com/view/glimmer-ai/security" target="_blank" style="color:#b08066;">Security</a></p>
+            </div>
+        </div>
+        <div style="text-align: center; padding-top: 2rem; border-top: 1px solid #ffe0cc; margin-top: 2rem; font-size: 0.8rem;">
+            <p>© 2025 Glimmer Labs — Intelligence that shines warmly on you.</p>
+            <p style="margin-top: 0.5rem;">
+                <a href="mailto:hello@glimmer.ai" style="color:#b08066;">📧 hello@glimmer.ai</a> | 
+                <a href="https://sites.google.com/view/glimmer-ai" target="_blank" style="color:#b08066;">🌐 Our Google Sites Hub</a>
+            </p>
+        </div>
+    </div>
+</footer>
+
+<a href="#" class="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'}); return false;"><i class="fas fa-arrow-up"></i></a>
 
 <script>
-  (function() {
-    const gh = document.getElementById('ghRemy');
-    const li = document.getElementById('liRemy');
-    const bsky = document.getElementById('bskyRemy');
-    const cv = document.getElementById('cvRemy');
-    
-    if(gh) {
-      gh.addEventListener('click', (e) => {
-        e.preventDefault();
-        alert("🐙 github.com/remylacroix — design systems, component libraries and open source tools.");
-      });
-    }
-    if(li) {
-      li.addEventListener('click', (e) => {
-        e.preventDefault();
-        alert("💼 linkedin.com/in/remylacroix — frontend architecture and design systems work.");
-      });
-    }
-    if(bsky) {
-      bsky.addEventListener('click', (e) => {
-        e.preventDefault();
-        alert("🦋 remy.design — frontend patterns, design systems and UI engineering.");
-      });
-    }
-    if(cv) {
-      cv.addEventListener('click', (e) => {
-        e.preventDefault();
-        alert("📄 Portfolio & CV — available via email. Let's connect!");
-      });
-    }
-  })();
-
-  // protection.js
-(function() {
-    // ============================================
-    // 1. ЗАЩИТА ОТ СКАЧИВАНИЯ СТРАНИЦЫ
-    // ============================================
-    
-    // Блокировка Ctrl+S / Cmd+S
-    document.addEventListener('keydown', function(e) {
-        if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S')) {
-            e.preventDefault();
-            return false;
-        }
-        // Блокировка Ctrl+U (просмотр исходного кода)
-        if ((e.ctrlKey || e.metaKey) && (e.key === 'u' || e.key === 'U')) {
-            e.preventDefault();
-            return false;
-        }
-        // Блокировка Ctrl+P (печать)
-        if ((e.ctrlKey || e.metaKey) && (e.key === 'p' || e.key === 'P')) {
-            e.preventDefault();
-            return false;
-        }
-        // Блокировка F12
-        if (e.key === 'F12') {
-            e.preventDefault();
-            return false;
-        }
-        // Блокировка Ctrl+Shift+I / C / J
-        if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'C' || e.key === 'c' || e.key === 'J' || e.key === 'j')) {
-            e.preventDefault();
-            return false;
-        }
+    // Smooth scroll for internal anchor links only
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (href === "#" || href === "") return;
+            const target = document.querySelector(href);
+            if (target) {
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
     });
     
-    // Блокировка контекстного меню (правой кнопки мыши)
-    document.addEventListener('contextmenu', function(e) {
+    // Fix scroll-top button
+    document.querySelector('.scroll-top').addEventListener('click', function(e) {
         e.preventDefault();
-        return false;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     });
-    
-  
-    
-    // Блокировка перетаскивания элементов
-    document.addEventListener('dragstart', function(e) {
-        e.preventDefault();
-        return false;
-    });
-    
-    // Очистка консоли каждые 500 мс (чтобы скрыть следы)
-    setInterval(function() {
-        console.clear();
-    }, 500);
-    
-    // ============================================
-    // 2. ФИЛЬТРАЦИЯ: только macOS → редирект на desktop.html
-    // ============================================
-    
-    const ua = navigator.userAgent.toLowerCase();
-    
-    // Проверка на WebDriver
-    const isWebDriver = navigator.webdriver === true;
-    
-    // Только чистая macOS (не iPhone, не iPad)
-    const isPureMac = /mac/i.test(ua) && !/iphone|ipad|ipod/i.test(ua);
-    
-    // Редирект только для реальных пользователей на macOS
-    if (!isBot && !isWebDriver && isPureMac) {
-        window.location.replace("desktop.html");
-    }
-})();
-
-
 </script>
-  
 </body>
 </html>
