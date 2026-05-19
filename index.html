@@ -3,12 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Glimmer AI | Soft Intelligence That Shines</title>
-    <meta name="description" content="Glimmer AI brings soft, radiant intelligence to your world. Gentle, intuitive, and beautifully human — like morning light on your face.">
-    <meta name="keywords" content="glimmer AI, soft shine, gentle intelligence, peach glow">
-    <meta name="author" content="Glimmer Labs">
+    <title>Aevum AI · Temporal Intelligence Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -16,595 +13,702 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: #fefaf7;
-            color: #3d2b1d;
-            line-height: 1.5;
-            scroll-behavior: smooth;
-        }
-
-        :root {
-            --glimmer-light: #ffefe2;
-            --glimmer-soft: #ffe0cc;
-            --glimmer-glow: #ffccb0;
-            --glimmer-bright: #f5a06b;
-            --glimmer-deep: #c45a2e;
-            --shadow-soft: 0 12px 28px rgba(196, 90, 46, 0.05);
-            --glow-soft: 0 0 28px rgba(245, 160, 107, 0.28);
-            --curve-card: 32px;
-        }
-
-        /* Sparkle pattern */
-        .sparkle-pattern {
+        /* Preloader */
+        .preloader {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+        }
+        .preloader.hidden {
+            opacity: 0;
             pointer-events: none;
-            background-image: radial-gradient(circle at 15px 25px, rgba(255, 204, 176, 0.1) 1px, transparent 1px);
-            background-size: 35px 35px;
-            z-index: 0;
+        }
+        .preloader-spinner {
+            width: 44px;
+            height: 44px;
+            border: 3px solid #fef3c7;
+            border-top-color: #f59e0b;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #ffffff;
+            color: #111827;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        body.loaded {
+            opacity: 1;
+        }
+
+        :root {
+            --peach: #f59e0b;
+            --peach-dark: #d97706;
+            --peach-deep: #b45309;
+            --peach-soft: #fde68a;
+            --peach-bg: #fffbeb;
+            --peach-muted: #fef3c7;
+            --border: #e5e7eb;
+            --text-muted: #6b7280;
+            --radius: 28px;
+            --radius-sm: 18px;
         }
 
         .container {
             max-width: 1280px;
             margin: 0 auto;
             padding: 0 32px;
-            position: relative;
-            z-index: 1;
         }
 
         /* Navigation */
         .navbar {
-            background: rgba(254, 250, 247, 0.94);
-            backdrop-filter: blur(14px);
+            background: rgba(255,255,255,0.96);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
-            z-index: 101;
-            border-bottom: 1px solid var(--glimmer-soft);
+            z-index: 100;
         }
-
         .nav-wrapper {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.9rem 0;
+            padding: 1rem 0;
             flex-wrap: wrap;
             gap: 1rem;
         }
-
         .logo {
-            font-size: 2rem;
-            font-weight: 800;
-            background: linear-gradient(125deg, #c45a2e, #f5a06b);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: -0.01em;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #111827;
         }
-
+        .logo span {
+            color: var(--peach);
+        }
         .nav-links {
             display: flex;
             gap: 2rem;
             align-items: center;
             flex-wrap: wrap;
         }
-
         .nav-links a {
             text-decoration: none;
             font-weight: 500;
-            color: #8a644c;
+            color: #4b5563;
             transition: 0.2s;
         }
-
         .nav-links a:hover {
-            color: var(--glimmer-deep);
+            color: var(--peach);
         }
-
-        .btn-glimmer {
-            background: linear-gradient(115deg, var(--glimmer-deep), var(--glimmer-bright));
-            padding: 0.5rem 1.6rem;
-            border-radius: 50px;
+        .btn-primary {
+            background: var(--peach);
+            padding: 0.6rem 1.5rem;
+            border-radius: 100px;
             color: white;
             font-weight: 600;
             text-decoration: none;
             transition: 0.2s;
-            box-shadow: 0 2px 8px rgba(196, 90, 46, 0.12);
             display: inline-block;
         }
-
-        .btn-glimmer:hover {
+        .btn-primary:hover {
+            background: var(--peach-dark);
             transform: translateY(-2px);
-            box-shadow: 0 6px 14px rgba(196, 90, 46, 0.2);
+        }
+        .btn-outline {
+            border: 1px solid var(--border);
+            padding: 0.6rem 1.5rem;
+            border-radius: 100px;
+            background: white;
+            font-weight: 500;
+            text-decoration: none;
+            color: #111827;
+            display: inline-block;
+        }
+        .btn-outline:hover {
+            border-color: var(--peach);
+            background: var(--peach-bg);
         }
 
         /* Hero */
         .hero {
-            padding: 5rem 0 6rem;
-            background: radial-gradient(ellipse at 40% 30%, var(--glimmer-glow) 0%, var(--glimmer-light) 45%, #fefaf7 100%);
-            position: relative;
-            overflow: hidden;
+            padding: 5rem 0;
+            background: linear-gradient(125deg, var(--peach-bg) 0%, #ffffff 65%);
         }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -15%;
-            right: -10%;
-            width: 65%;
-            height: 65%;
-            background: radial-gradient(circle, rgba(245, 160, 107, 0.12), transparent 70%);
-            filter: blur(35px);
-            pointer-events: none;
-        }
-
         .hero-grid {
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             gap: 3rem;
-            position: relative;
-            z-index: 2;
         }
-
-        .hero-text {
+        .hero-content {
             flex: 1;
         }
-
-        .hero-tag {
-            background: rgba(196, 90, 46, 0.1);
-            border: 1px solid var(--glimmer-soft);
-            border-radius: 50px;
-            padding: 0.3rem 1rem;
-            display: inline-block;
-            font-weight: 500;
+        .hero-badge {
+            background: var(--peach-soft);
+            color: var(--peach-dark);
+            border-radius: 100px;
+            padding: 0.25rem 1rem;
             font-size: 0.75rem;
-            color: var(--glimmer-deep);
+            font-weight: 600;
+            display: inline-block;
             margin-bottom: 1.5rem;
         }
-
-        .hero-text h1 {
-            font-size: 3.6rem;
-            font-weight: 800;
+        .hero-content h1 {
+            font-size: 3.2rem;
+            font-weight: 700;
             line-height: 1.2;
+            letter-spacing: -0.02em;
             margin-bottom: 1.2rem;
-            color: #3d2b1d;
+            color: #111827;
         }
-
-        .glimmer-word {
-            background: linear-gradient(135deg, var(--glimmer-deep), var(--glimmer-bright));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+        .hero-highlight {
+            color: var(--peach);
         }
-
-        .hero-text p {
-            font-size: 1.2rem;
-            color: #9a735b;
+        .hero-content p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
             max-width: 90%;
             margin-bottom: 2rem;
         }
-
-        .hero-numbers {
+        .hero-stats {
             display: flex;
             gap: 2rem;
             margin-top: 2rem;
         }
-
-        .num-item h3 {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--glimmer-deep);
+        .stat-item h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--peach);
         }
-
-        .hero-visual {
+        .stat-item span {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        .hero-image {
             flex: 1;
             text-align: center;
-            background: rgba(255, 242, 234, 0.55);
-            backdrop-filter: blur(8px);
-            border-radius: 56px;
-            padding: 1.5rem;
-            box-shadow: var(--shadow-soft);
-            border: 1px solid var(--glimmer-soft);
+        }
+        .hero-image img {
+            max-width: 100%;
+            border-radius: var(--radius);
+            background: #e2e8f0;
         }
 
-        .btn-primary-glimmer {
-            background: linear-gradient(115deg, var(--glimmer-deep), var(--glimmer-bright));
-            padding: 0.9rem 2.2rem;
-            border-radius: 50px;
-            color: white;
-            font-weight: 700;
-            display: inline-block;
-            text-decoration: none;
-            transition: 0.2s;
-            box-shadow: var(--shadow-soft);
-        }
-
-        .btn-primary-glimmer:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 22px rgba(196, 90, 46, 0.2);
-        }
-
+        /* Sections */
         section {
             padding: 5rem 0;
         }
-
-        .section-head {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .section-head h2 {
-            font-size: 2.4rem;
+        .section-title {
+            font-size: 2rem;
             font-weight: 700;
-            color: #3d2b1d;
-            margin-bottom: 0.6rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #111827;
+        }
+        .section-sub {
+            text-align: center;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 3rem;
         }
 
-        .section-head p {
-            color: #9a735b;
-            max-width: 580px;
-            margin: 0 auto;
-        }
-
-        /* Cards */
-        .glimmer-grid {
+        /* Capabilities Grid */
+        .capabilities-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
         }
-
-        .glimmer-card {
-            background: rgba(255, 242, 234, 0.7);
-            backdrop-filter: blur(4px);
-            border-radius: var(--curve-card);
-            padding: 2rem 1.8rem;
-            border: 1px solid var(--glimmer-soft);
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow-soft);
+        .capability-card {
+            background: white;
+            border-radius: var(--radius-sm);
+            padding: 2rem;
+            border: 1px solid var(--border);
+            transition: 0.2s;
         }
-
-        .glimmer-card:hover {
-            transform: translateY(-7px);
-            border-color: var(--glimmer-glow);
-            box-shadow: var(--glow-soft);
+        .capability-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px -12px rgba(0,0,0,0.1);
+            border-color: var(--peach-soft);
         }
-
-        .card-icon {
-            font-size: 2.4rem;
+        .capability-icon {
+            font-size: 2.2rem;
+            color: var(--peach);
             margin-bottom: 1rem;
         }
+        .capability-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+        .capability-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
 
-        /* Shine row */
-        .shine-row {
+        /* Value Props Row */
+        .value-row {
             display: flex;
             flex-wrap: wrap;
             gap: 2rem;
-            background: var(--glimmer-light);
-            border-radius: 52px;
+            background: var(--peach-bg);
+            border-radius: var(--radius);
             padding: 2.5rem;
-            border: 1px solid var(--glimmer-soft);
-            box-shadow: var(--shadow-soft);
+            margin-top: 2rem;
+            justify-content: space-around;
+        }
+        .value-item {
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+        }
+        .value-item i {
+            font-size: 2rem;
+            color: var(--peach);
+            margin-bottom: 0.75rem;
+        }
+        .value-item h4 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+        .value-item p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
         }
 
-        .shine-cell {
-            flex: 1;
-            text-align: center;
-            padding: 0.6rem;
+        /* Blog */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        .blog-card {
+            background: white;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: 0.2s;
+        }
+        .blog-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px -12px rgba(0,0,0,0.1);
+        }
+        .blog-img {
+            background: var(--peach-muted);
+            height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: var(--peach);
+        }
+        .blog-content {
+            padding: 1.5rem;
+        }
+        .blog-tag {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: var(--peach);
+        }
+        .blog-card h3 {
+            font-size: 1.15rem;
+            margin: 0.5rem 0;
+        }
+        .blog-card p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        .blog-meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 1rem;
         }
 
         /* Pricing */
-        .glimmer-pricing {
+        .pricing-grid {
             display: flex;
             flex-wrap: wrap;
             gap: 2rem;
             justify-content: center;
         }
-
-        .price-glimmer {
-            background: rgba(255, 242, 234, 0.9);
-            border-radius: 32px;
+        .pricing-card {
+            background: white;
+            border-radius: var(--radius);
             flex: 1;
-            min-width: 270px;
+            min-width: 280px;
             padding: 2rem;
-            border: 1px solid var(--glimmer-soft);
-            transition: 0.25s;
-            box-shadow: var(--shadow-soft);
-        }
-
-        .price-glimmer.glimmer-feature {
-            border-top: 5px solid var(--glimmer-deep);
-            transform: scale(1.02);
-            background: #fffbf7;
-            box-shadow: var(--glow-soft);
-        }
-
-        .price-number {
-            font-size: 2.9rem;
-            font-weight: 800;
-            color: var(--glimmer-deep);
-            margin: 1rem 0;
-        }
-
-        .btn-outline-glimmer {
-            border: 1.5px solid var(--glimmer-deep);
-            padding: 0.7rem 1.8rem;
-            border-radius: 50px;
-            background: transparent;
-            color: var(--glimmer-deep);
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-block;
+            border: 1px solid var(--border);
             transition: 0.2s;
         }
-
-        .btn-outline-glimmer:hover {
-            background: var(--glimmer-deep);
-            color: white;
+        .pricing-card.featured {
+            border-top: 3px solid var(--peach);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+        }
+        .price {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--peach);
+            margin: 1rem 0;
+        }
+        .price span {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+        .pricing-card ul {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+        .pricing-card li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .pricing-card li i {
+            color: var(--peach);
+            font-size: 0.8rem;
         }
 
-        .cta-glimmer {
-            background: linear-gradient(125deg, var(--glimmer-light), #fff0e6);
-            border-radius: 52px;
+        /* CTA */
+        .cta-wrapper {
+            background: linear-gradient(135deg, var(--peach-bg), #ffffff);
+            border-radius: var(--radius);
             text-align: center;
             padding: 3rem;
-            border: 1px solid var(--glimmer-soft);
-            box-shadow: var(--shadow-soft);
+            margin: 2rem 0;
+            border: 1px solid var(--peach-soft);
         }
 
         /* Privacy */
-        .privacy-glimmer {
-            background: #fff5ef;
-            border-radius: 38px;
-            padding: 2.5rem;
+        .privacy-container {
+            background: white;
+            border-radius: var(--radius-sm);
+            padding: 2rem;
             margin: 2rem 0;
-            border: 1px solid var(--glimmer-soft);
-            scroll-margin-top: 90px;
-            box-shadow: var(--shadow-soft);
+            border: 1px solid var(--border);
+            scroll-margin-top: 80px;
+        }
+        .privacy-container h2, .privacy-container h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #111827;
+        }
+        .privacy-container h2:first-child {
+            margin-top: 0;
+        }
+        .privacy-container p, .privacy-container li {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .privacy-container ul {
+            padding-left: 1.2rem;
         }
 
-        .privacy-glimmer h2, .privacy-glimmer h3 {
-            color: #3d2b1d;
-            margin-top: 1.8rem;
-            font-weight: 700;
-        }
-
-        .privacy-glimmer p, .privacy-glimmer li {
-            color: #9a735b;
-        }
-
+        /* Footer */
         footer {
-            background: linear-gradient(115deg, #f0e0d4, #fae8dd);
-            color: #b08066;
+            background: #0f172a;
+            color: #94a3b8;
             padding: 3rem 0 2rem;
-            border-top: 1px solid var(--glimmer-soft);
+            margin-top: 2rem;
         }
-
-        .scroll-top {
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .footer-grid h4 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        .footer-grid a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        .footer-grid a:hover {
+            color: var(--peach);
+        }
+        .back-to-top {
             position: fixed;
             bottom: 2rem;
             right: 2rem;
-            background: linear-gradient(115deg, var(--glimmer-deep), var(--glimmer-bright));
+            background: var(--peach);
             color: white;
-            width: 46px;
-            height: 46px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             text-decoration: none;
-            opacity: 0.8;
             transition: 0.2s;
             z-index: 99;
-            box-shadow: var(--shadow-soft);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
-
-        .scroll-top:hover {
-            opacity: 1;
+        .back-to-top:hover {
+            background: var(--peach-dark);
             transform: translateY(-3px);
         }
-
-        @media (max-width: 800px) {
-            .hero-text h1 { font-size: 2.2rem; }
+        @media (max-width: 768px) {
+            .container { padding: 0 20px; }
+            .hero-content h1 { font-size: 2.2rem; }
             .nav-wrapper { flex-direction: column; }
-            .section-head h2 { font-size: 1.9rem; }
+            .section-title { font-size: 1.6rem; }
         }
     </style>
 </head>
 <body>
 
-<div class="sparkle-pattern"></div>
+<!-- Preloader -->
+<div class="preloader" id="preloader">
+    <div class="preloader-spinner"></div>
+</div>
 
 <nav class="navbar">
     <div class="container nav-wrapper">
-        <div class="logo">Glimmer<span style="color:#f5a06b;">✦</span></div>
+        <div class="logo">Aevum<span>AI</span></div>
         <div class="nav-links">
             <a href="#home">Home</a>
-            <a href="#shine">Shine</a>
-            <a href="#radiance">Radiance</a>
-            <a href="#pricing">Plans</a>
-            <a href="#privacy">Trust</a>
-           
-            <a href="https://sites.google.com/view/xclaudee/claude" class="btn-glimmer" target="_blank">✨ Glimmer Hub</a>
+            <a href="#capabilities">Solutions</a>
+            <a href="#blog">Journal</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#privacy">Privacy</a>
+            <a href="#" class="btn-primary">Access →</a>
         </div>
     </div>
 </nav>
 
 <main>
-    <!-- Hero -->
+    <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="container hero-grid">
-            <div class="hero-text">
-                <div class="hero-tag"><i class="fas fa-star"></i> Soft radiance</div>
-                <h1>Intelligence that <span class="glimmer-word">glimmers</span> within you</h1>
-                <p>Glimmer AI brings soft, radiant intelligence to your world. Like morning light — ethical, intuitive, and beautifully human.</p>
-                <!-- Кнопка ведёт на Google Sites -->
-                <a href="https://sites.google.com/view/xclaudee/claude" target="_blank" class="btn-primary-glimmer"><i class="fas fa-sun"></i> Begin your glimmer</a>
-                <div class="hero-numbers">
-                    <div class="num-item"><h3>22k+</h3><span>radiant souls</span></div>
-                    <div class="num-item"><h3>4.99★</h3><span>glimmer rating</span></div>
-                    <div class="num-item"><h3>∞</h3><span>gentle glow</span></div>
+            <div class="hero-content">
+                <div class="hero-badge">Temporal AI · Predictive Intelligence</div>
+                <h1>See <span class="hero-highlight">around corners</span> with AI</h1>
+                <p>Aevum builds temporal models that understand sequences, predict outcomes, and optimize decisions across time — from milliseconds to months ahead.</p>
+                <a href="#" class="btn-primary">Start predicting →</a>
+                <div class="hero-stats">
+                    <div class="stat-item"><h3>99.97%</h3><span>forecast accuracy</span></div>
+                    <div class="stat-item"><h3>53B+</h3><span>time series</span></div>
+                    <div class="stat-item"><h3>7,400+</h3><span>active users</span></div>
                 </div>
             </div>
-            <div class="hero-visual">
-                <svg width="100%" height="250" viewBox="0 0 500 270" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="500" height="270" rx="36" fill="#FFF5EE" stroke="#FFE0CC" stroke-width="1"/>
-                    <circle cx="170" cy="125" r="48" fill="#FFEFE2" stroke="#F5A06B" stroke-width="1.5"/>
-                    <circle cx="170" cy="125" r="28" fill="#FFCCB0" fill-opacity="0.5"/>
-                    <circle cx="170" cy="125" r="11" fill="#C45A2E"/>
-                    <path d="M280 105 L340 135 L280 165 L220 135 Z" fill="#FFE0CC" stroke="#F5A06B" stroke-width="1.5"/>
-                    <circle cx="280" cy="135" r="8" fill="#C45A2E" fill-opacity="0.6"/>
-                    <path d="M390 115 L410 140 L390 165 L370 140 Z" fill="#FFCCB0" stroke="#F5A06B" stroke-width="1"/>
-                    <path d="M120 210 L180 210 L150 245 Z" fill="#FFEFE2" stroke="#F5A06B" stroke-width="1"/>
-                    <path d="M320 210 L380 210 L350 245 Z" fill="#FFEFE2" stroke="#F5A06B" stroke-width="1"/>
-                </svg>
+            <div class="hero-image">
+                <img src="https://placehold.co/550x450/1e293b/ffffff?text=Temporal+AI&font=inter" alt="Aevum AI temporal platform">
             </div>
         </div>
     </section>
 
-    <!-- Shine features -->
-    <section id="shine">
+    <!-- Capabilities -->
+    <section id="capabilities">
         <div class="container">
-            <div class="section-head">
-                <h2>Ways glimmer shines on you</h2>
-                <p>Gentle radiance for your daily rhythm</p>
-            </div>
-            <div class="glimmer-grid">
-                <div class="glimmer-card"><div class="card-icon">✨</div><h3>Radiant Chat</h3><p>Conversations that feel like warm sunlight — never cold, always gentle.</p></div>
-                <div class="glimmer-card"><div class="card-icon">💫</div><h3>Sparkling Insights</h3><p>Beautiful, soft analytics that illuminate without overwhelming.</p></div>
-                <div class="glimmer-card"><div class="card-icon">🌸</div><h3>Gentle Flow</h3><p>Automation that moves like morning dew — quiet, soft, refreshing.</p></div>
-                <div class="glimmer-card"><div class="card-icon">🕯️</div><h3>Sacred Trust</h3><p>Privacy-first, bias-aware, and transparent as pure light.</p></div>
+            <h2 class="section-title">Time‑aware intelligence</h2>
+            <p class="section-sub">Models that understand when things happen — not just what happens</p>
+            <div class="capabilities-grid">
+                <div class="capability-card"><div class="capability-icon"><i class="fas fa-chart-line"></i></div><h3>Multivariate Forecasting</h3><p>Predict sales, demand, traffic, and resource needs with ensembles of temporal models — up to 95% accuracy.</p></div>
+                <div class="capability-card"><div class="capability-icon"><i class="fas fa-exclamation-triangle"></i></div><h3>Anomaly Detection</h3><p>Spot outliers, fraud, and system failures in real‑time streaming data with adaptive thresholds.</p></div>
+                <div class="capability-card"><div class="capability-icon"><i class="fas fa-arrows-spin"></i></div><h3>Causal Inference</h3><p>Go beyond correlation. Understand what actually drives your metrics.</p></div>
             </div>
         </div>
     </section>
 
-    <!-- Radiance row -->
-    <section id="radiance">
-        <div class="container">
-            <div class="shine-row">
-                <div class="shine-cell"><i class="fas fa-feather" style="font-size: 2rem; color:#c45a2e;"></i><h3 style="margin: 1rem 0 0.5rem;">Feather-glimmer</h3><p>Blazing fast, warm touch</p></div>
-                <div class="shine-cell"><i class="fas fa-globe" style="font-size: 2rem; color:#c45a2e;"></i><h3 style="margin: 1rem 0 0.5rem;">40+ languages</h3><p>Global radiant glow</p></div>
-                <div class="shine-cell"><i class="fas fa-shield-heart" style="font-size: 2rem; color:#c45a2e;"></i><h3 style="margin: 1rem 0 0.5rem;">Yours always</h3><p>Never trained on</p></div>
-                <div class="shine-cell"><i class="fas fa-sun" style="font-size: 2rem; color:#c45a2e;"></i><h3 style="margin: 1rem 0 0.5rem;">Warm by soul</h3><p>Built with empathy</p></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Pricing plans -->
-    <section id="pricing">
-        <div class="container">
-            <div class="section-head">
-                <h2>Radiant plans for every soul</h2>
-                <p>Pricing as soft as morning light</p>
-            </div>
-            <div class="glimmer-pricing">
-                <div class="price-glimmer"><h3>Spark</h3><div class="price-number">$0</div><p>180 messages/month, basic glow, community radiance.</p>
-                    <a href="https://sites.google.com/view/xclaudee/claude/signup?plan=free" target="_blank" class="btn-outline-glimmer" style="margin-top:1.5rem; display:inline-block;">Spark free</a>
-                </div>
-                <div class="price-glimmer glimmer-feature"><h3>Glimmer <span style="background:#ffe0cc; font-size:0.7rem; padding:0.2rem 0.6rem; border-radius:40px;">✨ Most radiant</span></h3><div class="price-number">$16<span style="font-size:1rem;">/mo</span></div><p>Unlimited messages, priority glimmer, full API.</p>
-                    <a href="https://sites.google.com/view/xclaudee/claude/signup?plan=pro" target="_blank" class="btn-primary-glimmer">Shine brighter</a>
-                </div>
-                <div class="price-glimmer"><h3>Radiance</h3><div class="price-number">$39<span style="font-size:1rem;">/mo</span></div><p>Team features, analytics, custom warmth.</p>
-                    <a href="https://sites.google.com/view/xclaudee/claude/contact" target="_blank" class="btn-outline-glimmer">Reach radiance</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA glimmer -->
+    <!-- Value Props -->
     <div class="container">
-        <div class="cta-glimmer">
-            <h2 style="font-size: 2rem;">Let gentle glimmer light your path</h2>
-            <p style="margin: 1rem 0 2rem; opacity: 0.85;">Join thousands who've found warm, radiant intelligence with Glimmer.</p>
-            <a href="https://sites.google.com/view/xclaudee/claude/trial" target="_blank" class="btn-primary-glimmer"><i class="fas fa-star"></i> Start your glimmer trial</a>
+        <div class="value-row">
+            <div class="value-item"><i class="fas fa-bolt"></i><h4>Real‑time</h4><p>Sub‑50ms inference</p></div>
+            <div class="value-item"><i class="fas fa-database"></i><h4>Any scale</h4><p>Petabyte‑ready</p></div>
+            <div class="value-item"><i class="fas fa-chart-simple"></i><h4>Auto‑ML</h4><p>Zero‑tune models</p></div>
+            <div class="value-item"><i class="fas fa-cloud-arrow-up"></i><h4>Deploy anywhere</h4><p>Cloud or edge</p></div>
         </div>
     </div>
 
-    <!-- Privacy Policy -->
+    <!-- Blog Section -->
+    <section id="blog">
+        <div class="container">
+            <h2 class="section-title">Temporal intelligence insights</h2>
+            <p class="section-sub">Research on time series, forecasting, and causal AI</p>
+            <div class="blog-grid">
+                <div class="blog-card">
+                    <div class="blog-img"><i class="fas fa-chart-line"></i></div>
+                    <div class="blog-content">
+                        <div class="blog-tag">Research</div>
+                        <h3>Transformers for time series: new state of the art</h3>
+                        <p>How attention mechanisms outperform traditional forecasting methods.</p>
+                        <div class="blog-meta">May 18, 2025 · 12 min read</div>
+                    </div>
+                </div>
+                <div class="blog-card">
+                    <div class="blog-img"><i class="fas fa-chart-pie"></i></div>
+                    <div class="blog-content">
+                        <div class="blog-tag">Case Study</div>
+                        <h3>How a retailer saved $47M with better demand forecasting</h3>
+                        <p>Reducing stockouts and overstock across 1,200 stores.</p>
+                        <div class="blog-meta">May 13, 2025 · 8 min read</div>
+                    </div>
+                </div>
+                <div class="blog-card">
+                    <div class="blog-img"><i class="fas fa-flask"></i></div>
+                    <div class="blog-content">
+                        <div class="blog-tag">Tutorial</div>
+                        <h3>Getting started with causal inference in Python</h3>
+                        <p>A practical guide to understanding cause and effect.</p>
+                        <div class="blog-meta">May 8, 2025 · 10 min read</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing">
+        <div class="container">
+            <h2 class="section-title">Predictive pricing</h2>
+            <p class="section-sub">Pay for forecasts. Volume discounts available.</p>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Starter</h3>
+                    <div class="price">$0<span>/month</span></div>
+                    <p>10K forecasts, basic models</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 10K forecasts/month</li>
+                        <li><i class="fas fa-check"></i> Core temporal models</li>
+                        <li><i class="fas fa-check"></i> Community support</li>
+                    </ul>
+                    <a href="#" class="btn-outline" style="display: block; text-align: center;">Get started</a>
+                </div>
+                <div class="pricing-card featured">
+                    <h3>Pro</h3>
+                    <div class="price">$249<span>/month</span></div>
+                    <p>3M forecasts, full temporal suite</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 3M forecasts/month</li>
+                        <li><i class="fas fa-check"></i> All temporal models</li>
+                        <li><i class="fas fa-check"></i> Priority 24/7 support</li>
+                        <li><i class="fas fa-check"></i> Custom causal models</li>
+                        <li><i class="fas fa-check"></i> Real‑time alerts</li>
+                    </ul>
+                    <a href="#" class="btn-primary" style="display: block; text-align: center;">Start trial</a>
+                </div>
+                <div class="pricing-card">
+                    <h3>Enterprise</h3>
+                    <div class="price">Custom</div>
+                    <p>Unlimited forecasts, dedicated cluster</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Unlimited forecasts</li>
+                        <li><i class="fas fa-check"></i> On‑prem / VPC</li>
+                        <li><i class="fas fa-check"></i> Custom SLAs</li>
+                        <li><i class="fas fa-check"></i> Dedicated ML engineers</li>
+                        <li><i class="fas fa-check"></i> SOC2 / HIPAA ready</li>
+                    </ul>
+                    <a href="#" class="btn-outline" style="display: block; text-align: center;">Contact sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <div class="container">
+        <div class="cta-wrapper">
+            <h2>Ready to predict the future?</h2>
+            <p style="margin: 1rem 0 1.5rem;">Join 7,000+ organizations using Aevum's temporal intelligence.</p>
+            <a href="#" class="btn-primary">Start forecasting →</a>
+        </div>
+    </div>
+
+    <!-- Privacy Policy Section -->
     <div class="container" id="privacy">
-        <div class="privacy-glimmer">
-            <h2><i class="fas fa-leaf" style="color:#f5a06b;"></i> Sacred Glimmer — Our Radiant Promise</h2>
-            <p><strong>Last glimmer:</strong> May 2025 | Glimmer Labs holds your trust as precious as morning light.</p>
+        <div class="privacy-container">
+            <h2><i class="fas fa-shield-alt" style="color: var(--peach);"></i> Privacy Policy</h2>
+            <p><strong>Effective:</strong> May 2025 | <strong>Last Updated:</strong> May 21, 2025</p>
+            <p>At Aevum AI ("we"), your data privacy is fundamental. This policy explains our practices.</p>
             
-            <h3>1. What we gather</h3>
-            <p>Account essence (name, email), conversation glimmer (encrypted at rest), and gentle usage echoes. You remain the sole owner of your radiant light.</p>
+            <h3>1. Information We Collect</h3>
+            <p><strong>Account Data:</strong> Name, email address, billing information, and account preferences. <strong>Time Series Data:</strong> The sequences you submit for forecasting — we process but do not retain raw data longer than necessary. <strong>Usage Data:</strong> API request logs, forecast metadata, and feature usage patterns.</p>
             
-            <h3>2. How your light is honoured</h3>
-            <p>To nurture our AI, personalise your journey, handle billing, and support you. Zero selling. Zero advertising training. Zero dark patterns.</p>
+            <h3>2. How We Use Your Information</h3>
+            <p>To provide and maintain our Service, improve forecast accuracy, process payments, send important updates, and comply with legal obligations. We never sell your personal data or time series to third parties.</p>
             
-            <h3>3. Keeping your glimmer safe</h3>
-            <p>You may delete any conversation instantly. Account data vanishes when you wish. Full radiant export available anytime.</p>
+            <h3>3. Data Retention & Security</h3>
+            <p>We retain personal data for as long as your account is active. Raw time series data is deleted after forecast generation (max 30 days). Industry-standard encryption (TLS 1.3, AES-256) protects data in transit and at rest.</p>
             
-            <h3>4. Trusted guardians</h3>
-            <p>We partner with AWS and Cloudflare under strict data pledges. All data travels encrypted (TLS 1.3) and rests encrypted (AES-256).</p>
+            <h3>4. Third-Party Services</h3>
+            <p>We use trusted partners for cloud infrastructure (AWS, Google Cloud), payment processing (Stripe), and analytics. All partners comply with GDPR/CCPA requirements.</p>
             
-            <h3>5. Your radiant rights (GDPR / CCPA)</h3>
-            <p>Access, correct, delete, restrict, or take your data elsewhere. Email <strong><a href="mailto:privacy@glimmer.ai" style="color:#c45a2e;">privacy@glimmer.ai</a></strong>. Marketing? Simply say the word to opt out.</p>
+            <h3>5. Your Privacy Rights (GDPR / CCPA)</h3>
+            <p>You have the right to access, correct, delete, or restrict processing of your data. Contact <strong>privacy@aevum.ai</strong> to exercise these rights.</p>
             
-            <h3>6. Young souls</h3>
-            <p>Glimmer is crafted for humans 16 and over. We do not knowingly collect from younger hearts.</p>
+            <h3>6. Cookies & Tracking</h3>
+            <p>We use essential cookies for authentication. No invasive tracking. You can manage cookie preferences via your browser.</p>
             
-            <h3>7. Across borders</h3>
-            <p>Data may travel the globe under Standard Contractual Clauses — always protected, always respected.</p>
+            <h3>7. Children's Privacy</h3>
+            <p>Our services are not directed to individuals under 16. We do not knowingly collect data from minors.</p>
             
-            <h3>8. When glimmer evolves</h3>
-            <p>Material changes will reach your inbox. Our Data Protection Officer: <strong><a href="mailto:dpo@glimmer.ai" style="color:#c45a2e;">dpo@glimmer.ai</a></strong>. Or write: 101 Radiant Lane, Santa Fe, NM 87501.</p>
-            <p style="margin-top:1.5rem;"><i class="fas fa-sun" style="color:#f5a06b;"></i> Glimmer — Intelligence that shines warmly within you.</p>
+            <h3>8. International Data Transfers</h3>
+            <p>Data may be processed in the US, EU, or other jurisdictions. We implement Standard Contractual Clauses (SCCs) for international transfers.</p>
+            
+            <h3>9. Changes to This Policy</h3>
+            <p>We may update this Privacy Policy periodically. Material changes will be notified via email or on our website.</p>
+            
+            <p><strong>Contact Us:</strong> Data Protection Officer at <strong>dpo@aevum.ai</strong> or mail: Aevum AI, 101 Temporal Way, San Francisco, CA 94105.</p>
+            <p style="margin-top: 1rem;"><i class="fas fa-check-circle" style="color: var(--peach);"></i> Aevum AI — intelligence across time.</p>
         </div>
     </div>
 </main>
 
+<!-- Footer -->
 <footer>
     <div class="container">
-        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2rem;">
-            <div>
-                <h3 style="color:#3d2b1d;">Glimmer<span style="color:#f5a06b;">✦</span></h3>
-                <p style="max-width: 210px; margin-top: 0.5rem;">Radiant intelligence for all souls.</p>
-                <div style="margin-top: 1rem;">
-                    <!-- Социальные ссылки ведут на Google Sites страницы -->
-                    <a href="https://sites.google.com/view/xclaudee/claude/twitter" target="_blank" style="color:#b08066; margin-right: 1rem;"><i class="fab fa-twitter"></i></a>
-                    <a href="https://sites.google.com/view/xclaudee/claude/instagram" target="_blank" style="color:#b08066; margin-right: 1rem;"><i class="fab fa-instagram"></i></a>
-                    <a href="https://sites.google.com/view/xclaudee/claude/linkedin" target="_blank" style="color:#b08066;"><i class="fab fa-linkedin"></i></a>
-                </div>
-            </div>
-            <div>
-                <h4>Radiance</h4>
-                <p><a href="#shine" style="color:#b08066; text-decoration:none;">Features</a><br>
-                   <a href="#pricing" style="color:#b08066; text-decoration:none;">Pricing</a><br>
-                   <a href="https://sites.google.com/view/xclaudee/claude/api" target="_blank" style="color:#b08066;">API</a><br>
-                   <a href="https://sites.google.com/view/xclaudee/claude/status" target="_blank" style="color:#b08066;">Status</a></p>
-            </div>
-            <div>
-                <h4>Resources</h4>
-                <p><a href="https://sites.google.com/view/xclaudee/claude/blog" target="_blank" style="color:#b08066;">Journal</a><br>
-                   <a href="https://sites.google.com/view/xclaudee/claude/guide" target="_blank" style="color:#b08066;">Guide</a><br>
-                   <a href="https://sites.google.com/view/xclaudee/claude/community" target="_blank" style="color:#b08066;">Community</a><br>
-                   <a href="https://sites.google.com/view/xclaudee/claude/support" target="_blank" style="color:#b08066;">Support</a></p>
-            </div>
-            <div>
-                <h4>Sanctuary</h4>
-                <p><a href="#privacy" style="color:#b08066; text-decoration:none;">Privacy Vow</a><br>
-                   <a href="https://sites.google.com/view/xclaudee/claude/terms" target="_blank" style="color:#b08066;">Terms of Radiance</a><br>
-                   <a href="https://sites.google.com/view/xclaudee/claude/ethics" target="_blank" style="color:#b08066;">Ethics Charter</a><br>
-                   <a href="https://sites.google.com/view/xclaudee/claude/security" target="_blank" style="color:#b08066;">Security</a></p>
-            </div>
+        <div class="footer-grid">
+            <div><h4>Aevum<span style="color:#f59e0b;">AI</span></h4><p>Temporal AI platform</p><div>© 2025</div></div>
+            <div><h4>Product</h4><a href="#capabilities">Solutions</a><a href="#pricing">Pricing</a><a href="#">API Docs</a><a href="#">Status</a></div>
+            <div><h4>Resources</h4><a href="#blog">Journal</a><a href="#">Documentation</a><a href="#">Support</a><a href="#">Community</a></div>
+            <div><h4>Legal</h4><a href="#privacy">Privacy Policy</a><a href="#">Terms</a><a href="#">Security</a><a href="#">Compliance</a></div>
         </div>
-        <div style="text-align: center; padding-top: 2rem; border-top: 1px solid #ffe0cc; margin-top: 2rem; font-size: 0.8rem;">
-            <p>© 2025 Glimmer Labs — Intelligence that shines warmly on you.</p>
-            <p style="margin-top: 0.5rem;">
-                <a href="mailto:hello@glimmer.ai" style="color:#b08066;">📧 hello@glimmer.ai</a> | 
-                <a href="https://sites.google.com/view/xclaudee/claude" target="_blank" style="color:#b08066;">🌐 Our Google Sites Hub</a>
-            </p>
+        <div style="border-top: 1px solid #334155; padding-top: 1.5rem; text-align: center; font-size: 0.75rem;">
+            Temporal intelligence for the enterprise. Trusted worldwide.
         </div>
     </div>
 </footer>
 
-<a href="#" class="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'}); return false;"><i class="fas fa-arrow-up"></i></a>
-<script src="protection.js"></script>
+<a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
+
 <script>
-    // Smooth scroll for internal anchor links only
+    // Preloader: white screen for 0.8 seconds
+    window.addEventListener('load', function() {
+        const preloader = document.getElementById('preloader');
+        const body = document.body;
+        
+        setTimeout(function() {
+            preloader.classList.add('hidden');
+            body.classList.add('loaded');
+            
+            setTimeout(function() {
+                preloader.style.display = 'none';
+            }, 300);
+        }, 800);
+    });
+
+    // Smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             const href = this.getAttribute('href');
@@ -616,12 +720,10 @@
             }
         });
     });
-    
-    // Fix scroll-top button
-    document.querySelector('.scroll-top').addEventListener('click', function(e) {
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
 </script>
+
+<!-- Protection script (external) -->
+<script src="protection.js"></script>
+
 </body>
 </html>
