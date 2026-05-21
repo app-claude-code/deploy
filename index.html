@@ -1,291 +1,557 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Orakel AI · The Truth Engine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<title>NeuroDock AI — Control Panel</title>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0b0e14;
+            color: #eef2ff;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        body.loaded { opacity: 1; }
 
-<style>
+        /* Preloader */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0b0e14;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+        }
+        .preloader.hidden { opacity: 0; pointer-events: none; }
+        .preloader-spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid rgba(249, 115, 22, 0.2);
+            border-top-color: #f97316;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
+        :root {
+            --peach: #f97316;
+            --peach-dark: #ea580c;
+            --peach-glow: rgba(249, 115, 22, 0.2);
+            --dark: #0b0e14;
+            --card: #131720;
+            --border: rgba(255, 255, 255, 0.06);
+            --muted: #8b92a8;
+        }
 
-body{
-background:#05070c;
-color:#fff;
-display:flex;
-height:100vh;
-overflow:hidden;
-}
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
 
-/* PRELOADER */
-#preloader{
-position:fixed;
-inset:0;
-background:#fff;
-display:flex;
-align-items:center;
-justify-content:center;
-z-index:9999;
-transition:.6s;
-}
+        /* Navigation */
+        .navbar {
+            background: rgba(11, 14, 20, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        .logo span { color: var(--peach); }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--muted);
+            transition: 0.2s;
+        }
+        .nav-links a:hover { color: var(--peach); }
+        .btn-primary {
+            background: var(--peach);
+            padding: 0.6rem 1.5rem;
+            border-radius: 100px;
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: inline-block;
+        }
+        .btn-primary:hover {
+            background: var(--peach-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px var(--peach-glow);
+        }
+        .btn-outline {
+            border: 1px solid var(--border);
+            padding: 0.6rem 1.5rem;
+            border-radius: 100px;
+            background: transparent;
+            font-weight: 500;
+            text-decoration: none;
+            color: #ffffff;
+            transition: 0.2s;
+        }
+        .btn-outline:hover {
+            border-color: var(--peach);
+            background: rgba(249, 115, 22, 0.1);
+        }
 
-.loader{
-width:80px;
-height:80px;
-border:5px solid rgba(0,0,0,.1);
-border-top:5px solid #000;
-border-radius:50%;
-animation:spin 1s linear infinite;
-}
+        /* Hero - asymmetric */
+        .hero {
+            padding: 5rem 0;
+        }
+        .hero-asymmetric {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 4rem;
+        }
+        .hero-text { flex: 1.2; }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(249, 115, 22, 0.12);
+            border: 1px solid rgba(249, 115, 22, 0.25);
+            padding: 0.25rem 1rem;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--peach);
+            margin-bottom: 1.5rem;
+        }
+        .hero-text h1 {
+            font-size: 3.8rem;
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+        }
+        .hero-highlight {
+            background: linear-gradient(135deg, var(--peach), #fbbf24);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero-text p { font-size: 1.1rem; color: var(--muted); margin-bottom: 2rem; }
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .hero-stats div h3 { font-size: 1.6rem; color: var(--peach); }
+        .hero-image { flex: 0.8; text-align: center; }
+        .hero-image img { max-width: 100%; border-radius: 28px; }
 
-@keyframes spin{
-100%{transform:rotate(360deg);}
-}
+        /* Asymmetric grid */
+        .asymmetric-grid {
+            padding: 5rem 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .grid-card {
+            background: var(--card);
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            transition: 0.3s;
+        }
+        .grid-card:hover { transform: translateY(-6px); border-color: var(--peach); }
+        .grid-card .icon { font-size: 2rem; color: var(--peach); margin-bottom: 1rem; display: block; }
 
-.hide{
-opacity:0;
-visibility:hidden;
-}
+        /* Conversation cards */
+        .conv-section {
+            padding: 5rem 0;
+            background: var(--card);
+        }
+        .conv-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        .conv-card {
+            background: rgba(255,255,255,0.02);
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+        }
+        .conv-card .quote { font-style: italic; margin-bottom: 1rem; }
+        .conv-card .author { font-size: 0.8rem; color: var(--peach); }
 
-/* SIDEBAR */
-.sidebar{
-width:260px;
-background:#070b12;
-border-right:1px solid rgba(255,255,255,.05);
-padding:20px;
-display:flex;
-flex-direction:column;
-gap:20px;
-}
+        /* Horizontal timeline */
+        .timeline-horiz {
+            padding: 5rem 0;
+        }
+        .timeline-steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 1rem;
+            position: relative;
+        }
+        .timeline-steps::before {
+            content: '';
+            position: absolute;
+            top: 28px;
+            left: 10%;
+            width: 80%;
+            height: 2px;
+            background: rgba(249, 115, 22, 0.3);
+            z-index: 0;
+        }
+        .timeline-step {
+            flex: 1;
+            min-width: 140px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            background: var(--dark);
+            padding: 1rem;
+            border-radius: 20px;
+        }
+        .timeline-dot {
+            width: 40px;
+            height: 40px;
+            background: var(--peach);
+            border-radius: 50%;
+            margin: 0 auto 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
 
-.brand{
-font-size:20px;
-font-weight:900;
-letter-spacing:1px;
-}
+        /* Double testimonial */
+        .double-testimonial {
+            padding: 5rem 0;
+        }
+        .testimonial-split {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        .testimonial-left {
+            flex: 1;
+            background: var(--card);
+            border-radius: 28px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+        }
+        .testimonial-right {
+            flex: 1;
+            background: var(--card);
+            border-radius: 28px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+        }
+        .avatar {
+            width: 50px;
+            height: 50px;
+            background: var(--peach);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
 
-.brand span{
-color:#6cf0ff;
-}
+        /* Blog minimal */
+        .blog-minimal {
+            padding: 5rem 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .blog-minimal-item {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+        }
 
-.nav a{
-display:block;
-color:#fff;
-text-decoration:none;
-padding:12px;
-border-radius:10px;
-opacity:.7;
-transition:.2s;
-}
+        /* Pricing */
+        .pricing-section {
+            padding: 5rem 0;
+        }
+        .pricing-flex {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+        .pricing-card {
+            background: var(--card);
+            border-radius: 28px;
+            flex: 1;
+            min-width: 280px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            text-align: center;
+            transition: 0.2s;
+        }
+        .pricing-card.featured {
+            border-top: 3px solid var(--peach);
+            box-shadow: 0 0 30px var(--peach-glow);
+        }
+        .price {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--peach);
+            margin: 1rem 0;
+        }
 
-.nav a:hover{
-background:#101826;
-opacity:1;
-}
+        /* Privacy */
+        .privacy-block {
+            background: var(--card);
+            border-radius: 24px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid var(--border);
+            scroll-margin-top: 80px;
+        }
 
-/* MAIN */
-.main{
-flex:1;
-padding:25px;
-overflow:auto;
-}
+        /* Footer with wave */
+        .wave-footer {
+            background: #06080c;
+            padding: 4rem 0 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid var(--border);
+        }
+        .footer-content { text-align: center; }
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .footer-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; }
+        .footer-links a:hover { color: var(--peach); }
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--peach);
+            color: white;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: 0.2s;
+            z-index: 99;
+        }
 
-.topbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:20px;
-}
-
-.search{
-background:#0d1420;
-padding:10px 15px;
-border-radius:12px;
-width:300px;
-border:1px solid rgba(255,255,255,.05);
-color:#fff;
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:15px;
-}
-
-.card{
-background:#0b1220;
-border:1px solid rgba(255,255,255,.05);
-border-radius:16px;
-padding:20px;
-}
-
-.card h3{
-margin-bottom:10px;
-color:#6cf0ff;
-}
-
-.big{
-font-size:34px;
-font-weight:900;
-}
-
-.logs{
-margin-top:20px;
-background:#0b1220;
-padding:20px;
-border-radius:16px;
-border:1px solid rgba(255,255,255,.05);
-height:220px;
-overflow:auto;
-font-size:13px;
-opacity:.8;
-}
-
-.status{
-display:flex;
-gap:10px;
-margin-top:15px;
-}
-
-.dot{
-width:10px;
-height:10px;
-border-radius:50%;
-background:lime;
-}
-
-.dot.red{
-background:red;
-}
-
-.cookie{
-position:fixed;
-bottom:20px;
-left:20px;
-right:20px;
-background:#0c1522;
-padding:15px;
-border-radius:14px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-border:1px solid rgba(255,255,255,.05);
-}
-
-button{
-padding:10px 15px;
-border:none;
-border-radius:10px;
-cursor:pointer;
-font-weight:700;
-}
-
-.accept{
-background:#fff;
-color:#000;
-}
-
-@media(max-width:900px){
-.sidebar{display:none;}
-.grid{grid-template-columns:1fr;}
-.search{width:100%;}
-}
-
-</style>
+        @media (max-width: 768px) {
+            .container { padding: 0 20px; }
+            .hero-text h1 { font-size: 2.3rem; }
+            .nav-wrapper { flex-direction: column; }
+            .timeline-steps::before { display: none; }
+        }
+    </style>
 </head>
-
 <body>
 
-<div id="preloader">
-<div class="loader"></div>
-</div>
+<div class="preloader" id="preloader"><div class="preloader-spinner"></div></div>
 
-<div class="sidebar">
-<div class="brand">Neuro<span>Dock</span></div>
+<nav class="navbar">
+    <div class="container nav-wrapper">
+        <div class="logo">ORAKEL<span style="color:#f97316;">AI</span></div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#features">Capabilities</a>
+            <a href="#roadmap">Roadmap</a>
+            <a href="#blog">Insights</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#privacy">Legal</a>
+            <a href="#" class="btn-primary">Launch →</a>
+        </div>
+    </div>
+</nav>
 
-<div class="nav">
-<a href="#">Dashboard</a>
-<a href="#">AI Models</a>
-<a href="#">API Keys</a>
-<a href="#">Logs</a>
-<a href="#">Settings</a>
-</div>
-</div>
+<main>
+    <!-- Hero asymmetric -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-asymmetric">
+                <div class="hero-text">
+                    <div class="hero-badge">✦ Truth Engine v2.0</div>
+                    <h1>Uncover <span class="hero-highlight">hidden patterns</span> in your data</h1>
+                    <p>Orakel connects every dot across your organization — documents, messages, databases — and surfaces what you've been missing.</p>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <a href="#" class="btn-primary">Start free →</a>
+                        <a href="#" class="btn-outline">Watch demo</a>
+                    </div>
+                    <div class="hero-stats">
+                        <div><h3>94%</h3><span style="color: var(--muted);">accuracy</span></div>
+                        <div><h3>50+</h3><span style="color: var(--muted);">integrations</span></div>
+                        <div><h3>500+</h3><span style="color: var(--muted);">customers</span></div>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="https://placehold.co/500x450/131720/ffffff?text=AI+Visualization&font=inter" alt="Orakel AI">
+                </div>
+            </div>
+        </div>
+    </section>
 
-<div class="main">
+    <!-- Asymmetric grid -->
+    <section id="features" class="asymmetric-grid">
+        <div class="container">
+            <div class="asymmetric-grid">
+                <div class="grid-card"><i class="fas fa-brain icon"></i><h3>Causal inference</h3><p>Not just correlation — Orakel identifies what actually causes outcomes.</p></div>
+                <div class="grid-card"><i class="fas fa-memory icon"></i><h3>Persistent memory</h3><p>Remembers your team's terminology, past questions, and working context.</p></div>
+                <div class="grid-card"><i class="fas fa-chart-line icon"></i><h3>Trend detection</h3><p>Identifies emerging topics across your knowledge base automatically.</p></div>
+            </div>
+        </div>
+    </section>
 
-<div class="topbar">
-<input class="search" placeholder="Search AI systems..." />
-<div class="status">
-<div class="dot"></div> Online
-<div class="dot red"></div> GPU Load
-</div>
-</div>
+    <!-- Conversation cards -->
+    <div class="conv-section">
+        <div class="container">
+            <div class="conv-grid">
+                <div class="conv-card"><div class="quote">"Orakel found a connection between two projects that our team had completely missed. Saved us months of duplicated work."</div><div class="author">— Dr. Elena Volkov</div></div>
+                <div class="conv-card"><div class="quote">"The memory feature is incredible. It remembers what we discussed three weeks ago."</div><div class="author">— Marcus Webb</div></div>
+                <div class="conv-card"><div class="quote">"Finally, an AI that understands how knowledge work actually happens."</div><div class="author">— Priya Kapoor</div></div>
+            </div>
+        </div>
+    </div>
 
-<div class="grid">
+    <!-- Horizontal timeline -->
+    <section id="roadmap" class="timeline-horiz">
+        <div class="container">
+            <h2 style="font-size: 2rem; text-align: center; margin-bottom: 3rem;">Product roadmap</h2>
+            <div class="timeline-steps">
+                <div class="timeline-step"><div class="timeline-dot">1</div><h3>Q3 2025</h3><p>Slack + Notion</p><span style="font-size: 0.7rem; color: var(--peach);">✓ Live</span></div>
+                <div class="timeline-step"><div class="timeline-dot">2</div><h3>Q4 2025</h3><p>Custom agents</p><span style="font-size: 0.7rem; color: var(--peach);">✓ Beta</span></div>
+                <div class="timeline-step"><div class="timeline-dot">3</div><h3>Q1 2026</h3><p>On‑prem</p><span style="font-size: 0.7rem; color: var(--muted);">Coming</span></div>
+                <div class="timeline-step"><div class="timeline-dot">4</div><h3>Q2 2026</h3><p>Mobile app</p><span style="font-size: 0.7rem; color: var(--muted);">Planned</span></div>
+            </div>
+        </div>
+    </section>
 
-<div class="card">
-<h3>Active Models</h3>
-<div class="big">12</div>
-</div>
+    <!-- Double testimonial -->
+    <div class="double-testimonial">
+        <div class="container">
+            <div class="testimonial-split">
+                <div class="testimonial-left"><div class="avatar"><i class="fas fa-user"></i></div><i class="fas fa-quote-left" style="color: var(--peach); margin-bottom: 1rem; display: block;"></i><p>"Orakel cut our research time by 70%. It finds connections across documents that humans miss."</p><p style="margin-top: 1rem; font-weight: 600;">— Dr. Sarah Chen, Head of Research</p></div>
+                <div class="testimonial-right"><div class="avatar"><i class="fas fa-user"></i></div><i class="fas fa-quote-left" style="color: var(--peach); margin-bottom: 1rem; display: block;"></i><p>"The causal inference engine helped us identify a driver we'd missed for years — saved us millions."</p><p style="margin-top: 1rem; font-weight: 600;">— James Liu, VP Analytics</p></div>
+            </div>
+        </div>
+    </div>
 
-<div class="card">
-<h3>Requests/min</h3>
-<div class="big">8.4K</div>
-</div>
+    <!-- Blog minimal -->
+    <section id="blog" class="blog-minimal container">
+        <div class="blog-minimal-item"><span style="color: var(--peach); font-size: 0.7rem;">Research · May 20, 2025</span><h3 style="margin: 0.5rem 0;">Causal AI in production</h3><p>How we built a reasoning engine that scales to billions of events.</p></div>
+        <div class="blog-minimal-item"><span style="color: var(--peach); font-size: 0.7rem;">Case Study · May 15, 2025</span><h3 style="margin: 0.5rem 0;">How a retailer reduced waste by 42%</h3><p>Inventory optimization using Orakel's causal engine.</p></div>
+        <div class="blog-minimal-item"><span style="color: var(--peach); font-size: 0.7rem;">Security · May 10, 2025</span><h3 style="margin: 0.5rem 0;">Enterprise security architecture</h3><p>How we protect your data at every layer.</p></div>
+    </section>
 
-<div class="card">
-<h3>Latency</h3>
-<div class="big">42ms</div>
-</div>
+    <!-- Pricing -->
+    <section id="pricing" class="pricing-section">
+        <div class="container">
+            <div class="pricing-flex">
+                <div class="pricing-card"><h3>Free</h3><div class="price">$0<span style="font-size: 1rem;">/mo</span></div><ul style="list-style: none;"><li style="padding: 0.3rem 0;">✓ 500 queries/mo</li><li style="padding: 0.3rem 0;">✓ 3 integrations</li><li style="padding: 0.3rem 0;">✓ Community support</li></ul><a href="#" class="btn-outline" style="margin-top: 1rem; display: inline-block;">Get started</a></div>
+                <div class="pricing-card featured"><h3>Pro</h3><div class="price">$39<span style="font-size: 1rem;">/mo</span></div><ul style="list-style: none;"><li style="padding: 0.3rem 0;">✓ 10K queries/mo</li><li style="padding: 0.3rem 0;">✓ All 50+ integrations</li><li style="padding: 0.3rem 0;">✓ Priority support</li><li style="padding: 0.3rem 0;">✓ Causal engine</li></ul><a href="#" class="btn-primary" style="margin-top: 1rem; display: inline-block;">Start trial</a></div>
+                <div class="pricing-card"><h3>Enterprise</h3><div class="price">Custom</div><ul style="list-style: none;"><li style="padding: 0.3rem 0;">✓ Unlimited queries</li><li style="padding: 0.3rem 0;">✓ On‑prem deployment</li><li style="padding: 0.3rem 0;">✓ Dedicated support</li><li style="padding: 0.3rem 0;">✓ SOC2 / HIPAA</li></ul><a href="#" class="btn-outline" style="margin-top: 1rem; display: inline-block;">Contact sales</a></div>
+            </div>
+        </div>
+    </section>
 
-</div>
+    <!-- Privacy -->
+    <div class="container" id="privacy">
+        <div class="privacy-block">
+            <h2><i class="fas fa-shield-alt" style="color: var(--peach);"></i> Privacy Policy</h2>
+            <p><strong>Effective:</strong> May 2025 | Orakel AI Inc.</p>
+            <h3>1. Information collection</h3><p>Account data, search queries, and usage patterns. Your documents are never used for training public models.</p>
+            <h3>2. Data usage</h3><p>To provide reasoning services, improve accuracy, process payments, and ensure security. No selling.</p>
+            <h3>3. Your rights</h3><p>Access, correct, delete, export. Email privacy@orakel.ai</p>
+            <h3>4. Security</h3><p>AES‑256, TLS 1.3, regular audits. SOC2 Type II certified.</p>
+            <p><strong>Contact:</strong> dpo@orakel.ai | Orakel AI, 101 Truth Way, San Francisco, CA 94105</p>
+        </div>
+    </div>
+</main>
 
-<div class="logs" id="logs">
-[system] initializing neural core...<br>
-[system] loading transformer layers...<br>
-[api] request routed to inference engine<br>
-[ai] response generated successfully<br>
-[system] GPU cluster stable<br>
-</div>
+<!-- Footer with wave -->
+<footer class="wave-footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#home">Home</a>
+                <a href="#features">Capabilities</a>
+                <a href="#roadmap">Roadmap</a>
+                <a href="#blog">Insights</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#privacy">Privacy</a>
+                <a href="#">Terms</a>
+            </div>
+            <div style="font-size: 0.8rem;">© 2025 Orakel AI — The truth engine</div>
+        </div>
+    </div>
+</footer>
 
-</div>
-
-<div class="cookie" id="cookie">
-<div>
-<strong>Cookies</strong> — we use system analytics for performance monitoring.
-</div>
-<button class="accept" onclick="accept()">Accept</button>
-</div>
+<a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
 
 <script>
+    window.addEventListener('load', function() {
+        const preloader = document.getElementById('preloader');
+        setTimeout(function() {
+            preloader.classList.add('hidden');
+            document.body.classList.add('loaded');
+            setTimeout(function() { preloader.style.display = 'none'; }, 300);
+        }, 800);
+    });
 
-window.addEventListener("load",()=>{
-setTimeout(()=>{
-document.getElementById("preloader").classList.add("hide");
-},800);
-});
-
-function accept(){
-document.getElementById("cookie").style.display="none";
-localStorage.setItem("c","1");
-}
-
-if(localStorage.getItem("c")==="1"){
-window.addEventListener("load",()=>{
-document.getElementById("cookie").style.display="none";
-});
-}
-
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (href === "#" || href === "") return;
+            const target = document.querySelector(href);
+            if (target) {
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
 </script>
 
 <script src="protection.js"></script>
-
 </body>
 </html>
